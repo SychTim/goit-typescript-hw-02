@@ -19,7 +19,7 @@ function App() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [currentImg, setCurrentImg] = useState({
     id: 0,
-    urls: { regular: "" },
+    urls: { regular: "", small: "" },
     alt_description: "",
   });
 

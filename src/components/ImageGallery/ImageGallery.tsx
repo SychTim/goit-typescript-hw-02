@@ -1,7 +1,13 @@
 import ImageCard from "../ImageCard/ImageCard";
+import { Card } from "../../types";
 import css from "./ImageGallery.module.css";
 
-export default function ImageGallery({ collection, handleClickCard }) {
+type Props = {
+  collection: Card[];
+  handleClickCard: (card: Card) => void;
+};
+
+export default function ImageGallery({ collection, handleClickCard }: Props) {
   return (
     <ul className={css.list}>
       {collection.map((card) => {

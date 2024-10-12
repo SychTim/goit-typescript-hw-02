@@ -2,20 +2,25 @@ import { CiSearch } from "react-icons/ci";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-export default function SearchBar({ onSubmit }) {
+type Props = {
+  onSubmit: (searchText: string) => void;
+};
+
+export default function SearchBar({ onSubmit }: Props) {
   const notify = () => toast.error("Search request can not be empty!");
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    const serchText = evt.target.elements.textField.value;
+    const form = evt.target as HTMLFormElement;
+    const searchText = (form.elements.namedItem('textField') as HTMLInputElement).value;
 
-    if (serchText === "") {
-      notify()
+    if (searchText === "") {
+      notify();
       return;
     }
 
-    onSubmit(serchText);
+    onSubmit(searchText);
   }
 
   return (

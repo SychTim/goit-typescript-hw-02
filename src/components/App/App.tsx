@@ -5,6 +5,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import { Card } from "../../types";
 import "./App.css";
 import ImageModal from "../ImageModal/ImageModal";
 
@@ -16,23 +17,27 @@ function App() {
   const [topic, setTopic] = useState("");
   const [loadMore, setLoadMore] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [currentImg, setCurrentImg] = useState({ urls: { regular: "" } });
+  const [currentImg, setCurrentImg] = useState({
+    id: 0,
+    urls: { regular: "" },
+    alt_description: "",
+  });
 
-  function handleForm(serchText) {
+  function handleForm(serchText: string): void {
     setCollection([]);
     setPage(1);
     setTopic(serchText);
   }
 
-  function handleClickLoadMore() {
+  function handleClickLoadMore(): void {
     setPage((currentPage) => currentPage + 1);
   }
 
-  function handleClickCard(card) {
+  function handleClickCard(card: Card): void {
     setCurrentImg(card);
     setIsOpen(true);
   }
-  function closeModal() {
+  function closeModal(): void {
     setIsOpen(false);
   }
 
@@ -45,12 +50,15 @@ function App() {
       try {
         setError(false);
         setLoading(true);
-        const response = await searchRequest(topic, page);
+        const response = await searchRequest<{
+          results: [];
+          total_pages: number;
+        }>(topic, page);
         setCollection((nowCollection) => {
-          return [...nowCollection, ...response.data.results];
+          return [...nowCollection, ...response.results];
         });
         setLoadMore(() => {
-          if (response.data.total_pages > page) {
+          if (response.total_pages > page) {
             return true;
           }
 

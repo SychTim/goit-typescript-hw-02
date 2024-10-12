@@ -4,8 +4,8 @@ const AccessKey = "6cz9g4vsqA7Xih_xyixnPmFNBaN8v7mEOHUJySxFkuU";
 
 axios.defaults.baseURL = "https://api.unsplash.com/search/"
 
-export async function searchRequest(query, page) {
-    return axios.get("photos", {
+export async function searchRequest<T>(query: string, page: number): Promise<T> {
+    const response = await axios.get<T>("photos", {
         params: {
             query: query,
             client_id: AccessKey,
@@ -14,6 +14,7 @@ export async function searchRequest(query, page) {
             orientation: "landscape"
         }
     })
+    return response.data;
 }
 
 // const ApplicationID = "651148";
